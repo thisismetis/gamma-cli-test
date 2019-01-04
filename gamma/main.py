@@ -65,7 +65,7 @@ def config(context, instructor_repo, student_repo):
 
 @gamma.command()
 def generate():
-    """Generate files from yaml."""
+    """Generate the daily table and schedule files."""
 
     click.echo("generating files")
 
