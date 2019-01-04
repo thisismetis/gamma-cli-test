@@ -117,7 +117,7 @@ def excel():
 @click.option('-d', "--date", type=click.Path(), default="w1d1",
               prompt="Move files up to and including which date?")
 @click.pass_context
-def move(date):
+def move(context, date):
     """Move files from the instructor repo to student repo up to a date."""
 
     day, week = parse_lesson_date(date)
@@ -143,9 +143,12 @@ def move(date):
 
     headers = ["date", "title"]
 
-    click.echo("The following lessons will be moved:")
-    click.echo(tabulate(instructor_lesson_df.loc[:, headers], headers=headers))
-    click.echo(tabulate(instructor_pair_df.loc[:, headers], headers=headers))
+    click.echo("\nThe following lessons will be moved:")
+    click.echo(
+        tabulate(instructor_lesson_df.loc[:, headers], headers=headers) + "\n")
+    click.echo("The following pairs will be moved:")
+    click.echo(
+        tabulate(instructor_pair_df.loc[:, headers], headers=headers) + "\n")
 
     student_repo = Path(config["student_repo"])
     instructor_repo = Path(config["instructor_repo"])
@@ -167,4 +170,6 @@ def move(date):
             pair_instructor = instructor_repo/"pairs" /pair["pair"]
             pair_student = student_repo/"pairs" /pair["pair"]
             pair_instructor.copytree(pair_student)
+
+    click.echo("Lessons have been move. Regenerating schedule...")
     context.invoke(generate)
