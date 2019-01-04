@@ -155,8 +155,10 @@ def daily_table(repo_path, lesson_df, pair_df):
                    "`# Daily Schedule`. Please add it.")
         return
 
+    template_dir = Path(__file__).parent.parent/"templates"
+
     env = Environment(
-        loader=FileSystemLoader("templates", followlinks=True),
+        loader=FileSystemLoader(template_dir, followlinks=True),
         autoescape=False)
     template = env.get_template("daily.html.j2")
 

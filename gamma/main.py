@@ -32,7 +32,7 @@ def status():
               default=config["student_repo"],
               prompt="Enter the path to the student repo")
 @click.pass_context
-def config(context, instructor_repo, student_repo):
+def configure(context, instructor_repo, student_repo):
     """Set the gamma configuration through the command line."""
     set_config(
         {"instructor_repo": instructor_repo, "student_repo": student_repo})
@@ -116,6 +116,7 @@ def excel():
 @gamma.command()
 @click.option('-d', "--date", type=click.Path(), default="w1d1",
               prompt="Move files up to and including which date?")
+@click.pass_context
 def move(date):
     """Move files from the instructor repo to student repo up to a date."""
 
@@ -166,3 +167,4 @@ def move(date):
             pair_instructor = instructor_repo/"pairs" /pair["pair"]
             pair_student = student_repo/"pairs" /pair["pair"]
             pair_instructor.copytree(pair_student)
+    context.invoke(generate)
