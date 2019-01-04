@@ -81,8 +81,6 @@ def read_lessons(repo_path):
 
     topics = [t for t in topics if test(t)]
 
-    print(f"loading {len(topics)} lessons")
-
     list_of_dicts = []
     for current_topic in topics:
 
@@ -99,7 +97,7 @@ def read_lessons(repo_path):
 
     lesson_df = pd.DataFrame(list_of_dicts)
 
-    first_cols = ['project', 'lesson', 'maintainer', 'date', 'duration']
+    first_cols = ['date', 'title', 'maintainer', 'duration', 'project']
 
     last_cols = [c for c in lesson_df.columns if c not in first_cols]
 
@@ -113,8 +111,6 @@ def read_pairs(repo_path):
     """Build a dataframe from pair yaml files."""
 
     pairs = Path(repo_path).glob("pairs/*")
-
-    print(f"loading {len(pairs)} pairs")
 
     list_of_dicts = []
     for current_pair in pairs:
@@ -135,7 +131,7 @@ def read_pairs(repo_path):
 
     pair_df = pd.DataFrame(list_of_dicts)
 
-    first_cols = ['title', 'maintainer', 'date', 'duration']
+    first_cols = ['date', 'title', 'maintainer', 'duration']
 
     last_cols = [c for c in pair_df.columns if c not in first_cols]
 

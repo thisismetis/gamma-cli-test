@@ -2,9 +2,10 @@ import click
 import yaml
 import pandas as pd
 from path import Path
+from tabulate import tabulate
 
 from .utils import (get_config, set_config, read_lessons, read_pairs,
-                    daily_table, write_schedule)
+                    daily_table, write_schedule, parse_lesson_date)
 
 config = get_config()
 
@@ -17,6 +18,7 @@ def gamma():
 
 @gamma.command()
 def status():
+    """Display status of gamma configuration"""
     config = get_config()
     click.secho('Your current configuration is:', bg='magenta', fg='white')
     click.echo(yaml.dump(config, default_flow_style=False))
@@ -30,7 +32,8 @@ def status():
               default=config["student_repo"],
               prompt="Enter the path to the student repo")
 @click.pass_context
-def init(context, instructor_repo, student_repo):
+def config(context, instructor_repo, student_repo):
+    """Set the gamma configuration through the command line."""
     set_config(
         {"instructor_repo": instructor_repo, "student_repo": student_repo})
 
@@ -108,3 +111,58 @@ def excel():
         "columns": [{"header": c} for c in combined_df.columns]
     })
     writer.save()
+
+
+@gamma.command()
+@click.option('-d', "--date", type=click.Path(), default="w1d1",
+              prompt="Move files up to and including which date?")
+def move(date):
+    """Move files from the instructor repo to student repo up to a date."""
+
+    day, week = parse_lesson_date(date)
+
+    instructor_lesson_df = read_lessons(config["instructor_repo"])
+    instructor_pair_df = read_pairs(config["instructor_repo"])
+
+    instructor_lesson_df = instructor_lesson_df.query(
+        "day > 0 and  week > 0").query(
+            "week < @week or (week == @week and day <= @day)")
+    instructor_pair_df = instructor_pair_df.query(
+        "day > 0 and  week > 0").query(
+            "week < @week or (week == @week and day <= @day)")
+
+    student_lesson_df = read_lessons(config["student_repo"])
+    student_pair_df = read_pairs(config["student_repo"])
+
+    instructor_lesson_df = instructor_lesson_df.loc[
+        instructor_lesson_df.title.isin(student_lesson_df.title) == False, :]
+
+    instructor_pair_df = instructor_pair_df.loc[instructor_pair_df.title.isin(
+        student_pair_df.title) == False, :]
+
+    headers = ["date", "title"]
+
+    click.echo("The following lessons will be moved:")
+    click.echo(tabulate(instructor_lesson_df.loc[:, headers], headers=headers))
+    click.echo(tabulate(instructor_pair_df.loc[:, headers], headers=headers))
+
+    student_repo = Path(config["student_repo"])
+    instructor_repo = Path(config["instructor_repo"])
+    if click.confirm("Do you wish to proceed?"):
+
+        for project in instructor_lesson_df.project.unique():
+            project_path = student_repo/"curriculum" /project
+            if not project_path.exists():
+                project_path.makedirs()
+
+        for lesson in instructor_lesson_df.to_dict("records"):
+            lesson_instructor = instructor_repo/"curriculum" /lesson[
+                "project"]/lesson["lesson"]
+            lesson_student = student_repo/"curriculum" /lesson[
+                "project"]/lesson["lesson"]
+            lesson_instructor.copytree(lesson_student)
+
+        for pair in instructor_pair_df.to_dict("records"):
+            pair_instructor = instructor_repo/"pairs" /pair["pair"]
+            pair_student = student_repo/"pairs" /pair["pair"]
+            pair_instructor.copytree(pair_student)
