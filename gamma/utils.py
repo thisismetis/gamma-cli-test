@@ -1,3 +1,4 @@
+import click
 from path import Path
 import yaml
 import frontmatter
@@ -147,6 +148,16 @@ def read_pairs(repo_path):
 def daily_table(repo_path, lesson_df, pair_df):
     """Generte daily table."""
     repo_path = Path(repo_path)
+    readme_path = repo_path/"readme.md"
+
+    if not readme_path.exists():
+        click.echo(f"The file {readme_path} does not exist. Please create it.")
+        return
+
+    if not ("# Daily Schedule" in readme_path.text()):
+        click.echo(f"The file {readme_path} should contain the heading" +
+                   "`# Daily Schedule`. Please add it.")
+        return
 
     env = Environment(
         loader=FileSystemLoader("templates", followlinks=True),
