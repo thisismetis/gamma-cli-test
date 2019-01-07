@@ -3,6 +3,13 @@ name = "gamma-cli"
 version = "0.1.14"
 description = "Command line tool for Gamma curriculum."
 authors = ["artificialsoph <s@soph.info>"]
+packages = [
+    { include = "gamma" },
+]
+include = ["templates/*"]
+
+[tool.poetry.scripts]
+gamma='gamma.main:gamma'
 
 [tool.poetry.dependencies]
 python = "^3.6"
