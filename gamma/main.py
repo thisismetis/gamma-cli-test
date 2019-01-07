@@ -138,11 +138,13 @@ def move(context, date):
     student_lesson_df = read_lessons(config["student_repo"])
     student_pair_df = read_pairs(config["student_repo"])
 
-    if type(student_lesson_df) != "list":
+    print(student_lesson_df)
+
+    if not isinstance(student_lesson_df, list):
         instructor_lesson_df = instructor_lesson_df.loc[
             instructor_lesson_df.title.isin(student_lesson_df.
                                             title) == False, :]
-    if type(student_pair_df) != "list":
+    if not isinstance(student_pair_df, list):
         instructor_pair_df = instructor_pair_df.loc[
             instructor_pair_df.title.isin(student_pair_df.title) == False, :]
 
