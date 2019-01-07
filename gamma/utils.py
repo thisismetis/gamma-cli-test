@@ -92,6 +92,9 @@ def read_lessons(repo_path):
 
     topics = [t for t in topics if test(t)]
 
+    if not topics:
+        return []
+
     list_of_dicts = []
     for current_topic in topics:
 
@@ -122,6 +125,9 @@ def read_pairs(repo_path):
     """Build a dataframe from pair yaml files."""
 
     pairs = Path(repo_path).glob("pairs/*")
+
+    if not pairs:
+        return []
 
     list_of_dicts = []
     for current_pair in pairs:

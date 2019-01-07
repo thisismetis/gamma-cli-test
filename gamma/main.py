@@ -36,11 +36,13 @@ def configure(context, instructor_repo, student_repo):
     """Set the gamma configuration through the command line."""
     set_config(
         {"instructor_repo": instructor_repo, "student_repo": student_repo})
+    curr_config = get_config()
+    student_repo = Path(curr_config["student_repo"])
 
-    student_repo = Path(student_repo)
+    dirs = ["curriculum", "schedule", "pairs"]
 
     directory_flag = True
-    for dir in ["curriculum", "schedule", "pairs"]:
+    for dir in dirs:
         test_dir = student_repo/dir
         if not test_dir.isdir():
             directory_flag = False
@@ -51,7 +53,7 @@ def configure(context, instructor_repo, student_repo):
                 'The student repo is missing one or more directories ' +
                 'needed for the curriculum. Would you like for me ' +
                 'to create them?'):
-            for dir in ["curriculum", "lessons", "pairs"]:
+            for dir in dirs:
                 make_dir = student_repo/dir
                 make_dir.makedirs_p()
 
@@ -136,11 +138,13 @@ def move(context, date):
     student_lesson_df = read_lessons(config["student_repo"])
     student_pair_df = read_pairs(config["student_repo"])
 
-    instructor_lesson_df = instructor_lesson_df.loc[
-        instructor_lesson_df.title.isin(student_lesson_df.title) == False, :]
-
-    instructor_pair_df = instructor_pair_df.loc[instructor_pair_df.title.isin(
-        student_pair_df.title) == False, :]
+    if type(student_lesson_df) != "list":
+        instructor_lesson_df = instructor_lesson_df.loc[
+            instructor_lesson_df.title.isin(student_lesson_df.
+                                            title) == False, :]
+    if type(student_pair_df) != "list":
+        instructor_pair_df = instructor_pair_df.loc[
+            instructor_pair_df.title.isin(student_pair_df.title) == False, :]
 
     headers = ["date", "title"]
 
