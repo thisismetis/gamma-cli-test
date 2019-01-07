@@ -7,4 +7,6 @@ from .main import *
 #   X.Y
 #   X.Y.Z   # For bugfix releases
 
-__version__ = '0.1.16'
+import pkg_resources
+
+__version__ = pkg_resources.get_distribution('pip').version
