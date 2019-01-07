@@ -40,23 +40,24 @@ def configure(context, instructor_repo, student_repo):
     student_repo = Path(student_repo)
 
     directory_flag = True
-    for dir in ["curriculum", "lessons", "pairs"]:
+    for dir in ["curriculum", "schedule", "pairs"]:
         test_dir = student_repo/dir
         if not test_dir.isdir():
             directory_flag = False
             break
 
     if not directory_flag:
-        if click.confirm('The student repo is missing one or more directories'
-                         + 'needed for the curriculum. Would you like for me' +
-                         'to create them?'):
+        if click.confirm(
+                'The student repo is missing one or more directories ' +
+                'needed for the curriculum. Would you like for me ' +
+                'to create them?'):
             for dir in ["curriculum", "lessons", "pairs"]:
                 make_dir = student_repo/dir
                 make_dir.makedirs_p()
 
     if not (student_repo/"readme.md").exists():
-        if click.confirm('The student repo is missing the main readme' +
-                         'needed for the curriculum.' + 'to create it?'):
+        if click.confirm('The student repo is missing the main readme ' +
+                         'needed for the curriculum. ' + 'to create it?'):
 
             (student_repo/"readme.md").write_text("\n\n# Daily Schedule\n\n")
 
