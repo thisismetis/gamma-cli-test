@@ -5,7 +5,7 @@ from click.testing import CliRunner
 def test_gamma():
 
     runner = CliRunner()
-    result = runner.invoke(gamma)
+    result = runner.invoke(gamma.gamma)
     assert result.exit_code == 0
 
 
