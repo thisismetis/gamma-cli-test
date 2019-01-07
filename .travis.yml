@@ -3,3 +3,5 @@ language: python
     - "3.6"
 install:
   - pip install -q -e .
+script:
+  - pytest
