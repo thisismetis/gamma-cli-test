@@ -171,7 +171,7 @@ def daily_table(repo_path, lesson_df, pair_df):
     env = Environment(
         loader=FileSystemLoader(template_dir, followlinks=True),
         autoescape=False)
-    template = env.get_template("daily.html.j2")
+    template = env.get_template("daily.html.py")
 
     soup = BeautifulSoup(
         template.render(lesson_df=lesson_df, pair_df=pair_df), 'html.parser')
