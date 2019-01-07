@@ -1,1 +1,2 @@
-recursive-include templates *.j2
+# directory includes
+graft templates
