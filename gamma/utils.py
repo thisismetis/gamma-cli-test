@@ -16,7 +16,18 @@ def get_config():
         CONFIG_PATH.write_text(
             yaml.dump({"student_repo": "", "instructor_repo": ""}))
 
-    return yaml.load(CONFIG_PATH.text())
+    curr_config = yaml.load(CONFIG_PATH.text())
+
+    if "~" in curr_config["student_repo"]:
+        curr_config["student_repo"] = Path(
+            curr_config["student_repo"]).expanduser()
+        CONFIG_PATH.write_text(yaml.dump(curr_config))
+    if "~" in curr_config["instructor_repo"]:
+        curr_config["instructor_repo"] = Path(
+            curr_config["instructor_repo"]).expanduser()
+        CONFIG_PATH.write_text(yaml.dump(curr_config))
+
+    return curr_config
 
 
 def set_config(config_obj):
