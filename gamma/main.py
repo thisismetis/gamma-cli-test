@@ -7,6 +7,10 @@ from tabulate import tabulate
 from .utils import (get_config, set_config, read_lessons, read_pairs,
                     daily_table, write_schedule, parse_lesson_date)
 
+import pkg_resources
+
+__version__ = pkg_resources.get_distribution('gamma').version
+
 config = get_config()
 
 
@@ -20,6 +24,7 @@ def gamma():
 def status():
     """Display status of gamma configuration"""
     config = get_config()
+    click.echo("Gamma-cli version: {__version__}")
     click.secho('Your current configuration is:', bg='magenta', fg='white')
     click.echo(yaml.dump(config, default_flow_style=False))
 
