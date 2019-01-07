@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='gamma',
-    version='0.1.6',
+    version='0.1.7',
     packages=find_packages(),
     install_requires=[
         'Click',
@@ -19,5 +19,5 @@ setup(
         [console_scripts]
         gamma=gamma.main:gamma
     ''',
-    package_data={"templates": ["*"]},
+    package_data={"templates": ["*"], "": ["*.j2"]},
 )
