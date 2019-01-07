@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/thisismetis/gamma-cli.svg?token=tJ687Bi2a1fC7eLRuHQg&branch=master)](https://travis-ci.com/thisismetis/gamma-cli)
+
 # gamma-cli
 The command line tool for the gamma curriculum
 
