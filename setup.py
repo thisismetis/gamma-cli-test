@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+import gamma
 
 setup(
     name='gamma',
-    version='0.1.14',
+    version=gamma.__version__,
     packages=find_packages(),
     install_requires=[
         'Click',
