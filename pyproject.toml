@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gamma-cli"
-version = "0.1.14"
+version = "0.1.15"
 description = "Command line tool for Gamma curriculum."
 authors = ["artificialsoph <s@soph.info>"]
 packages = [
