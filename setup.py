@@ -3,7 +3,7 @@ import gamma
 
 setup(
     name='gamma',
-    version=gamma.__version__,
+    version='0.1.16',
     packages=find_packages(),
     install_requires=[
         'Click',
