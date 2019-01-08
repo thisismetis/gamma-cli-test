@@ -6,7 +6,8 @@ from tabulate import tabulate
 import platform
 
 from .utils import (get_config, set_config, read_lessons, read_pairs,
-                    daily_table, write_schedule, parse_lesson_date)
+                    daily_table, write_schedule, parse_lesson_date,
+                    check_config)
 
 import pkg_resources
 
@@ -45,6 +46,14 @@ def status():
 
     click.secho('Your current configuration is:', bg='magenta', fg='white')
     click.echo(yaml.dump(config, default_flow_style=False))
+
+    if not check_config(config):
+        click.secho(
+            "Warning: your config file doesn't appear to be "
+            "properly set", bg='red', fg='white')
+        click.echo("""Set it with
+    gamma configure
+""")
 
 
 CONFIG = get_config()
@@ -106,6 +115,20 @@ def generate():
         lesson_df = read_lessons(config[key])
         pair_df = read_pairs(config[key])
 
+        if pair_df.empty:
+            click.secho(
+                f"Warning: there are no valid pairs in {key}."
+                "Ensure that your config is set properly and that your "
+                "instructor repo is up to date.", bg='red', fg='white')
+            continue
+
+        if lesson_df.empty:
+            click.secho(
+                f"Warning: there are no valid lessons in {key}."
+                "Ensure that your config is set properly and that your "
+                "instructor repo is up to date.", bg='red', fg='white')
+            continue
+
         daily_table(config[key], lesson_df, pair_df)
         write_schedule(config[key], lesson_df, pair_df)
 
@@ -116,10 +139,24 @@ def excel():
     config = get_config()
 
     pair_df = read_pairs(config["instructor_repo"])
+    lesson_df = read_lessons(config["instructor_repo"])
+
+    if pair_df.empty:
+        click.secho(
+            "Warning: there are no valid pairs in the instructor repo."
+            "Ensure that your config is set properly and that your "
+            "instructor repo is up to date.", bg='red', fg='white')
+        return
+    if lesson_df.empty:
+        click.secho(
+            "Warning: there are no valid lessons in the instructor repo."
+            "Ensure that your config is set properly and that your "
+            "instructor repo is up to date.", bg='red', fg='white')
+        return
+
     pair_df["type"] = "pair"
     pair_df["order"] = 0
 
-    lesson_df = read_lessons(config["instructor_repo"])
     lesson_df["type"] = "lesson"
 
     combined_df = pd.concat([pair_df, lesson_df], sort=False,
@@ -160,6 +197,19 @@ def move(context, date):
     instructor_lesson_df = read_lessons(config["instructor_repo"])
     instructor_pair_df = read_pairs(config["instructor_repo"])
 
+    if instructor_pair_df.empty:
+        click.secho(
+            "Warning: there are no valid pairs in the instructor repo. "
+            "Ensure that your config is set properly and that your "
+            "instructor repo is up to date.", bg='red', fg='white')
+        return
+    if instructor_lesson_df.empty:
+        click.secho(
+            "Warning: there are no valid lessons in the instructor repo. "
+            "Ensure that your config is set properly and that your "
+            "instructor repo is up to date.", bg='red', fg='white')
+        return
+
     instructor_lesson_df = instructor_lesson_df.query(
         "day > 0 and  week > 0").query(
             "week < @week or (week == @week and day <= @day)")
@@ -170,11 +220,11 @@ def move(context, date):
     student_lesson_df = read_lessons(config["student_repo"])
     student_pair_df = read_pairs(config["student_repo"])
 
-    if not isinstance(student_lesson_df, list):
+    if not student_lesson_df.empty:
         instructor_lesson_df = instructor_lesson_df.loc[
             instructor_lesson_df.title.isin(
                 student_lesson_df.title) == False, :]  # noqa: E712
-    if not isinstance(student_pair_df, list):
+    if not student_pair_df.empty:
         instructor_pair_df = instructor_pair_df.loc[
             instructor_pair_df.title.isin(
                 student_pair_df.title) == False, :]  # noqa: E712

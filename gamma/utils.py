@@ -9,6 +9,15 @@ from bs4 import BeautifulSoup
 CONFIG_PATH = Path("~/.gamma/config.yaml").expanduser()
 
 
+def check_config(config):
+    ins_set = config["instructor_repo"] != ""
+    ins_exists = Path(config["instructor_repo"]).exists()
+    stu_set = config["student_repo"] != ""
+    stu_exists = Path(config["student_repo"]).exists()
+
+    return all([ins_set, ins_exists, stu_set, stu_exists])
+
+
 def get_config():
 
     if not CONFIG_PATH.exists():
@@ -93,7 +102,7 @@ def read_lessons(repo_path):
     topics = [t for t in topics if test(t)]
 
     if not topics:
-        return []
+        return pd.DataFrame()
 
     list_of_dicts = []
     for current_topic in topics:
@@ -136,6 +145,9 @@ def read_lessons(repo_path):
 
     lesson_df = pd.DataFrame(list_of_dicts)
 
+    if lesson_df.empty:
+        return lesson_df
+
     first_cols = ['date', 'title', 'maintainer', 'duration', 'project']
 
     last_cols = [c for c in lesson_df.columns if c not in first_cols]
@@ -152,7 +164,7 @@ def read_pairs(repo_path):
     pairs = Path(repo_path).glob("pairs/*")
 
     if not pairs:
-        return []
+        return pd.DataFrame()
 
     list_of_dicts = []
     for current_pair in pairs:
@@ -197,6 +209,9 @@ def read_pairs(repo_path):
         list_of_dicts.append(post.metadata)
 
     pair_df = pd.DataFrame(list_of_dicts)
+
+    if pair_df.empty:
+        return pair_df
 
     first_cols = ['date', 'title', 'maintainer', 'duration']
 
