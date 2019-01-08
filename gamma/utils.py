@@ -98,8 +98,33 @@ def read_lessons(repo_path):
     list_of_dicts = []
     for current_topic in topics:
 
+        readme_path = current_topic / "readme.md"
+
+        readme_exists = readme_path.exists()
+
+        if not readme_exists:
+            click.secho(
+                f"Warning: {readme_path} expected but does not exist. "
+                "skipping", bg='red', fg='white')
+            continue
+
         post = frontmatter.load(current_topic / "readme.md")
         lesson_dict = post.metadata
+
+        required_keys = ["date", "title", "maintainer", "duration"]
+
+        required_flag = True
+        for key in required_keys:
+            if key not in lesson_dict:
+                required_flag = False
+                break
+        if not required_flag:
+            click.secho(
+                f"Warning: {readme_path} should include a yaml "
+                f"header with the required keys {required_keys}. "
+                "skipping", bg='red', fg='white')
+            continue
+
         if "order" not in lesson_dict:
             lesson_dict["order"] = 10
         lesson_dict["lesson"] = current_topic.split("/")[-1]
@@ -131,8 +156,33 @@ def read_pairs(repo_path):
 
     list_of_dicts = []
     for current_pair in pairs:
-        post = frontmatter.load(f"{current_pair}/readme.md")
+
+        readme_path = current_pair / "readme.md"
+
+        readme_exists = readme_path.exists()
+
+        if not readme_exists:
+            click.secho(
+                f"Warning: {readme_path} expected but does not exist. "
+                "skipping", bg='red', fg='white')
+            continue
+
+        post = frontmatter.load(current_pair / "readme.md")
         pair_dict = post.metadata
+
+        required_keys = ["date", "title", "maintainer", "duration"]
+
+        required_flag = True
+        for key in required_keys:
+            if key not in pair_dict:
+                required_flag = False
+                break
+        if not required_flag:
+            click.secho(
+                f"Warning: {readme_path} should include a yaml "
+                f"header with the required keys {required_keys}. "
+                "skipping", bg='red', fg='white')
+            continue
 
         pair_dict["pair"] = current_pair.split("/")[-1]
 
