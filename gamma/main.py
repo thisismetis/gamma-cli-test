@@ -147,7 +147,7 @@ def excel():
 
 
 @gamma.command()
-@click.option('-d', "--date", type=click.Path(), default="w1d1",
+@click.option('-d', "--date", type=str, default="w1d1",
               prompt="Move files up to and including which date?",
               help="Date to move files. Example: w2d4")
 @click.pass_context
