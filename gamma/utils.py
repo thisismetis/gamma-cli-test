@@ -12,7 +12,7 @@ CONFIG_PATH = Path("~/.gamma/config.yaml").expanduser()
 def get_config():
 
     if not CONFIG_PATH.exists():
-        CONFIG_PATH.parent.makedirs()
+        CONFIG_PATH.parent.makedirs_p()
         CONFIG_PATH.write_text(
             yaml.dump({"student_repo": "", "instructor_repo": ""}))
 
