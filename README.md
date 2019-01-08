@@ -5,14 +5,8 @@ The command line tool for the gamma curriculum
 
 # Installation
 
-This tool is maintained behind a private repo, so it is not hosted on the python package index. If you have [SSH keys set up with GitHub](https://help.github.com/articles/connecting-to-github-with-ssh/) (which is recommended anyway) then the following should work
+This tool is maintained behind a private repo, so it is not hosted on the python package index. You will need to set up [SSH keys with GitHub](https://help.github.com/articles/connecting-to-github-with-ssh/) in order for the following script to work. It will clone this repo to `~/.gamma/gamma-cli` and use an editable install:
 
 ```bash
-pip install -U git+ssh://git@github.com/thisismetis/gamma-cli.git#egg=gamma
-```
-
-If you have trouble with this, you may clone this repo and install from that repo like so (You must be `cd`d into the cloned repo for the following to work.)
-
-```
-pip install .
+mkdir -p ~/.gamma; git clone git@github.com:thisismetis/gamma-cli.git ~/.gamma/gamma-cli; pip install -e ~/.gamma/gamma-cli
 ```
