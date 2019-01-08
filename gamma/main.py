@@ -32,10 +32,12 @@ def status():
 @gamma.command()
 @click.option('-i', "--instructor_repo", type=click.Path(),
               default=config["instructor_repo"],
-              prompt="Enter the path to the instructor repo")
+              prompt="Enter the path to the instructor repo",
+              help="Absolute path to instructor repo")
 @click.option('-s', "--student_repo", type=click.Path(),
               default=config["student_repo"],
-              prompt="Enter the path to the student repo")
+              prompt="Enter the path to the student repo",
+              help="Absolute path to student repo")
 @click.pass_context
 def configure(context, instructor_repo, student_repo):
     """Set the gamma configuration through the command line."""
@@ -48,7 +50,7 @@ def configure(context, instructor_repo, student_repo):
 
     directory_flag = True
     for dir in dirs:
-        test_dir = student_repo/dir
+        test_dir = student_repo / dir
         if not test_dir.isdir():
             directory_flag = False
             break
@@ -59,14 +61,14 @@ def configure(context, instructor_repo, student_repo):
                 'needed for the curriculum. Would you like for me ' +
                 'to create them?'):
             for dir in dirs:
-                make_dir = student_repo/dir
+                make_dir = student_repo / dir
                 make_dir.makedirs_p()
 
-    if not (student_repo/"readme.md").exists():
+    if not (student_repo / "readme.md").exists():
         if click.confirm('The student repo is missing the main readme ' +
                          'needed for the curriculum. ' + 'to create it?'):
 
-            (student_repo/"readme.md").write_text("\n\n# Daily Schedule\n\n")
+            (student_repo / "readme.md").write_text("\n\n# Daily Schedule\n\n")
 
     context.invoke(status)
 
@@ -109,7 +111,7 @@ def excel():
 
     # Create a Pandas Excel writer using XlsxWriter as the engine.
     writer = pd.ExcelWriter(
-        Path(config["instructor_repo"])/'gamma.xlsx', engine='xlsxwriter')
+        Path(config["instructor_repo"]) / 'gamma.xlsx', engine='xlsxwriter')
 
     # Convert the dataframe to an XlsxWriter Excel object.
     combined_df.to_excel(writer, sheet_name='Sheet1', index=False)
@@ -123,7 +125,8 @@ def excel():
 
 @gamma.command()
 @click.option('-d', "--date", type=click.Path(), default="w1d1",
-              prompt="Move files up to and including which date?")
+              prompt="Move files up to and including which date?",
+              help="Date to move files. Example: w2d4")
 @click.pass_context
 def move(context, date):
     """Move files from the instructor repo to student repo up to a date."""
@@ -147,11 +150,12 @@ def move(context, date):
 
     if not isinstance(student_lesson_df, list):
         instructor_lesson_df = instructor_lesson_df.loc[
-            instructor_lesson_df.title.isin(student_lesson_df.
-                                            title) == False, :]
+            instructor_lesson_df.title.isin(
+                student_lesson_df.title) == False, :]  # noqa: E712
     if not isinstance(student_pair_df, list):
         instructor_pair_df = instructor_pair_df.loc[
-            instructor_pair_df.title.isin(student_pair_df.title) == False, :]
+            instructor_pair_df.title.isin(
+                student_pair_df.title) == False, :]  # noqa: E712
 
     headers = ["date", "title"]
 
@@ -167,20 +171,20 @@ def move(context, date):
     if click.confirm("Do you wish to proceed?"):
 
         for project in instructor_lesson_df.project.unique():
-            project_path = student_repo/"curriculum" /project
+            project_path = student_repo / "curriculum" / project
             if not project_path.exists():
                 project_path.makedirs()
 
         for lesson in instructor_lesson_df.to_dict("records"):
-            lesson_instructor = instructor_repo/"curriculum" /lesson[
-                "project"]/lesson["lesson"]
-            lesson_student = student_repo/"curriculum" /lesson[
-                "project"]/lesson["lesson"]
+            lesson_instructor = instructor_repo / "curriculum" / lesson[
+                "project"] / lesson["lesson"]
+            lesson_student = student_repo / "curriculum" / lesson[
+                "project"] / lesson["lesson"]
             lesson_instructor.copytree(lesson_student)
 
         for pair in instructor_pair_df.to_dict("records"):
-            pair_instructor = instructor_repo/"pairs" /pair["pair"]
-            pair_student = student_repo/"pairs" /pair["pair"]
+            pair_instructor = instructor_repo / "pairs" / pair["pair"]
+            pair_student = student_repo / "pairs" / pair["pair"]
             pair_instructor.copytree(pair_student)
 
     click.echo("Lessons have been move. Regenerating schedule...")

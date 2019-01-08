@@ -98,7 +98,7 @@ def read_lessons(repo_path):
     list_of_dicts = []
     for current_topic in topics:
 
-        post = frontmatter.load(current_topic/"readme.md")
+        post = frontmatter.load(current_topic / "readme.md")
         lesson_dict = post.metadata
         if "order" not in lesson_dict:
             lesson_dict["order"] = 10
@@ -161,7 +161,7 @@ def read_pairs(repo_path):
 def daily_table(repo_path, lesson_df, pair_df):
     """Generte daily table."""
     repo_path = Path(repo_path)
-    readme_path = repo_path/"readme.md"
+    readme_path = repo_path / "readme.md"
 
     if not readme_path.exists():
         click.echo(f"The file {readme_path} does not exist. Please create it.")
@@ -172,7 +172,7 @@ def daily_table(repo_path, lesson_df, pair_df):
                    "`# Daily Schedule`. Please add it.")
         return
 
-    template_dir = Path(__file__).parent.parent/"templates"
+    template_dir = Path(__file__).parent.parent / "templates"
 
     env = Environment(
         loader=FileSystemLoader(template_dir, followlinks=True),
@@ -184,7 +184,7 @@ def daily_table(repo_path, lesson_df, pair_df):
 
     daily_table = soup.prettify()
 
-    readme_path = repo_path/"readme.md"
+    readme_path = repo_path / "readme.md"
     readme_text = readme_path.text()
     start = readme_text.find("# Daily Schedule") + len("# Daily Schedule")
     end = readme_text.find("#", start)
@@ -227,5 +227,5 @@ def write_schedule(repo_path, lesson_df, pair_df):
                              f"/{lesson['lesson']})")
                 week_str += f" ({lesson['duration']} m)  \n"
 
-            week_path = repo_path/"schedule" /f"week-{week_i:02d}.md"
+            week_path = repo_path / "schedule" / f"week-{week_i:02d}.md"
             week_path.write_text(week_str)
