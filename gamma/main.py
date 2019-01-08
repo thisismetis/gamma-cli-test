@@ -3,6 +3,7 @@ import yaml
 import pandas as pd
 from path import Path
 from tabulate import tabulate
+import platform
 
 from .utils import (get_config, set_config, read_lessons, read_pairs,
                     daily_table, write_schedule, parse_lesson_date)
@@ -11,7 +12,10 @@ import pkg_resources
 
 __version__ = pkg_resources.get_distribution('gamma').version
 
-config = get_config()
+REC_INSTALL = """\n\b
+    mkdir -p ~/.gamma
+    git clone git@github.com:thisismetis/gamma-cli.git ~/.gamma/gamma-cli
+    pip install -e ~/.gamma/gamma-cli\n"""
 
 
 @click.group()
@@ -24,18 +28,35 @@ def gamma():
 def status():
     """Display status of gamma configuration"""
     config = get_config()
-    click.echo("Gamma-cli version: {__version__}")
+
+    click.echo(f"platform: {platform.platform()}")
+
+    install_loc = Path(__file__)
+    rec_install_loc = Path("~/.gamma/gamma-cli/gamma/main.py").expanduser()
+    rec_install_flag = install_loc == rec_install_loc
+
+    click.echo(f"Gamma-cli version: {__version__}, "
+               f"Install location: {install_loc}")
+    if not rec_install_flag:
+        click.secho(
+            'Your current install location is different from the recommended '
+            'location.', bg='red', fg='white')
+        click.echo(f"It is recommended that you install with {REC_INSTALL}")
+
     click.secho('Your current configuration is:', bg='magenta', fg='white')
     click.echo(yaml.dump(config, default_flow_style=False))
 
 
+CONFIG = get_config()
+
+
 @gamma.command()
 @click.option('-i', "--instructor_repo", type=click.Path(),
-              default=config["instructor_repo"],
+              default=CONFIG["instructor_repo"],
               prompt="Enter the path to the instructor repo",
               help="Absolute path to instructor repo")
 @click.option('-s', "--student_repo", type=click.Path(),
-              default=config["student_repo"],
+              default=CONFIG["student_repo"],
               prompt="Enter the path to the student repo",
               help="Absolute path to student repo")
 @click.pass_context
@@ -78,6 +99,7 @@ def generate():
     """Generate the daily table and schedule files."""
 
     click.echo("generating files")
+    config = get_config()
 
     for key in ["instructor_repo", "student_repo"]:
 
@@ -91,6 +113,7 @@ def generate():
 @gamma.command()
 def excel():
     """Generate an excel file from content in the instructor repo."""
+    config = get_config()
 
     pair_df = read_pairs(config["instructor_repo"])
     pair_df["type"] = "pair"
@@ -130,6 +153,7 @@ def excel():
 @click.pass_context
 def move(context, date):
     """Move files from the instructor repo to student repo up to a date."""
+    config = get_config()
 
     day, week = parse_lesson_date(date)
 
