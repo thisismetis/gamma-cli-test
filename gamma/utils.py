@@ -270,7 +270,8 @@ def write_schedule(repo_path, lesson_df, pair_df):
         week_str = f"# Week {week_i} \n"
 
         for day_i, day in enumerate(
-            ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]):
+            ["Monday", "Tuesday", "Wednesday", "Thursday",
+             "Friday"]):  # noqa: E125
 
             week_str += f"\n\n{day}\n"
 
