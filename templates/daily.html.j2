@@ -11,7 +11,7 @@
       <tr>
       {% for day in range(0,6) %}
           {% if loop.first %}
-            <th>{{ "Week {}".format(week) }}</th>
+            <th><a href={{ "/schedule/week-{:02d}".format(week) }}>{{ "Week {}".format(week) }}</a></th>
           {% else %}
 
             {% set pair = pair_df.query("(day == {}) and (week == {})".format(day,week)) %}
