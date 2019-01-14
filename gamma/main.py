@@ -4,6 +4,7 @@ import pandas as pd
 from path import Path
 from tabulate import tabulate
 import platform
+from git import Repo
 
 from .utils import (get_config, set_config, read_lessons, read_pairs,
                     daily_table, write_schedule, parse_lesson_date,
@@ -262,3 +263,13 @@ def move(context, date):
 
     click.echo("Lessons have been move. Regenerating schedule...")
     context.invoke(generate)
+
+
+@gamma.command()
+def update():
+
+    click.echo("Checking for updates. ", nl=False)
+    local_repo = Repo(Path(__file__).parent.parent)
+    local_repo.remotes.origin.pull()
+
+    click.echo("Complete.")
