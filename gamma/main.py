@@ -6,6 +6,8 @@ from tabulate import tabulate
 import platform
 from git import Repo
 
+# test
+
 from .utils import (get_config, set_config, read_lessons, read_pairs,
                     daily_table, write_schedule, parse_lesson_date,
                     check_config)
