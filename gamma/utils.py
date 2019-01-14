@@ -96,10 +96,10 @@ def read_lessons(repo_path):
 
     topics = Path(repo_path).glob("curriculum/*/*")
 
-    def test(x):
-        return (x.isdir() and ("project" in x))
+    # def test(x):
+    #     return (x.isdir() and ("project" in x))
 
-    topics = [t for t in topics if test(t)]
+    topics = [t for t in topics if t.isdir()]
 
     if not topics:
         return pd.DataFrame()
@@ -179,7 +179,12 @@ def read_pairs(repo_path):
                 "skipping", bg='red', fg='white')
             continue
 
-        post = frontmatter.load(current_pair / "readme.md")
+        try:
+            post = frontmatter.load(current_pair / "readme.md")
+        except yaml.scanner.ScannerError:
+            click.secho(f"Warning: error loading {current_pair}. Skipping",
+                        bg='red', fg='white')
+            continue
         pair_dict = post.metadata
 
         required_keys = ["date", "title", "maintainer", "duration"]

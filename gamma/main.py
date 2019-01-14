@@ -120,13 +120,14 @@ def generate():
                 f"Warning: there are no valid pairs in {key}."
                 "Ensure that your config is set properly and that your "
                 "instructor repo is up to date.", bg='red', fg='white')
-            continue
 
         if lesson_df.empty:
             click.secho(
                 f"Warning: there are no valid lessons in {key}."
                 "Ensure that your config is set properly and that your "
                 "instructor repo is up to date.", bg='red', fg='white')
+
+        if pair_df.empty and lesson_df.empty:
             continue
 
         daily_table(config[key], lesson_df, pair_df)
