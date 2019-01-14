@@ -263,7 +263,10 @@ def write_schedule(repo_path, lesson_df, pair_df):
 
     repo_path = Path(repo_path)
 
-    max_week = max(pair_df.week.max(), lesson_df.week.max())
+    pair_max = 0 if pair_df.empty else pair_df.week.max()
+    lesson_max = 0 if lesson_df.empty else lesson_df.week.max()
+
+    max_week = max(pair_max, lesson_max)
 
     for week_i in range(1, max_week + 1):
 
