@@ -4,13 +4,10 @@ import pandas as pd
 from path import Path
 from tabulate import tabulate
 import platform
-from git import Repo
-
-# test
 
 from .utils import (get_config, set_config, read_lessons, read_pairs,
                     daily_table, write_schedule, parse_lesson_date,
-                    check_config)
+                    check_config, pull_update)
 
 import pkg_resources
 
@@ -31,6 +28,7 @@ def gamma():
 @gamma.command()
 def status():
     """Display status of gamma configuration"""
+    pull_update()
     config = get_config()
 
     click.echo(f"platform: {platform.platform()}")
@@ -74,6 +72,7 @@ CONFIG = get_config()
 @click.pass_context
 def configure(context, instructor_repo, student_repo):
     """Set the gamma configuration through the command line."""
+    pull_update()
     set_config(
         {"instructor_repo": instructor_repo, "student_repo": student_repo})
     curr_config = get_config()
@@ -110,6 +109,7 @@ def configure(context, instructor_repo, student_repo):
 def generate():
     """Generate the daily table and schedule files."""
 
+    pull_update()
     click.echo("generating files")
     config = get_config()
 
@@ -194,6 +194,7 @@ def excel():
 @click.pass_context
 def move(context, date):
     """Move files from the instructor repo to student repo up to a date."""
+    pull_update()
     config = get_config()
 
     day, week = parse_lesson_date(date)
@@ -270,8 +271,4 @@ def move(context, date):
 @gamma.command()
 def update():
 
-    click.echo("Checking for updates. ", nl=False)
-    local_repo = Repo(Path(__file__).parent.parent)
-    local_repo.remotes.origin.pull()
-
-    click.echo("Complete.")
+    pull_update()

@@ -5,8 +5,17 @@ import frontmatter
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 from bs4 import BeautifulSoup
+from git import Repo
 
 CONFIG_PATH = Path("~/.gamma/config.yaml").expanduser()
+
+
+def pull_update():
+    click.echo("Checking gamma-cli for updates. ", nl=False)
+    local_repo = Repo(Path(__file__).parent.parent)
+    local_repo.remotes.origin.pull()
+
+    click.echo("Complete.")
 
 
 def check_config(config):
