@@ -72,7 +72,6 @@ CONFIG = get_config()
 @click.pass_context
 def configure(context, instructor_repo, student_repo):
     """Set the gamma configuration through the command line."""
-    pull_update()
     set_config(
         {"instructor_repo": instructor_repo, "student_repo": student_repo})
     curr_config = get_config()
@@ -109,7 +108,6 @@ def configure(context, instructor_repo, student_repo):
 def generate():
     """Generate the daily table and schedule files."""
 
-    pull_update()
     click.echo("generating files")
     config = get_config()
 
