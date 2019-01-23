@@ -5,14 +5,21 @@ The command line tool for the gamma curriculum
 
 # Installation
 
-This tool is maintained behind a private repo which creates some minor annoyances. I'll be smoothing out the install and update process shortly but for now, here's what that looks like (You will need to set up [SSH keys with GitHub](https://help.github.com/articles/connecting-to-github-with-ssh/) in order for the following scripts to work.):
+First, add the following to your `~/.config/pip/pip.conf`
+
+```
+[global]
+extra-index-url = https://pypi.fury.io/artificialsoph/
+```
+
+This tells pip to search the package index at https://pypi.fury.io/artificialsoph/ whenever it installs or updates packages.
 
 install:
 ```bash
-mkdir -p ~/.gamma; git clone git@github.com:thisismetis/gamma-cli.git ~/.gamma/gamma-cli; pip install -e ~/.gamma/gamma-cli
+pip install gamma
 ```
 
 update:
 ```bash
-cd ~/.gamma/gamma-cli; git pull
+pip install gamma -U
 ```
