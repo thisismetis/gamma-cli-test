@@ -7,7 +7,7 @@ import platform
 
 from .utils import (get_config, set_config, read_lessons, read_pairs,
                     daily_table, write_schedule, parse_lesson_date,
-                    check_config, pull_update)
+                    check_config)
 
 import pkg_resources
 
@@ -28,7 +28,7 @@ def gamma():
 @gamma.command()
 def status():
     """Display status of gamma configuration"""
-    pull_update()
+
     config = get_config()
 
     click.echo(f"platform: {platform.platform()}")
@@ -192,7 +192,7 @@ def excel():
 @click.pass_context
 def move(context, date):
     """Move files from the instructor repo to student repo up to a date."""
-    pull_update()
+
     config = get_config()
 
     day, week = parse_lesson_date(date)
@@ -269,4 +269,4 @@ def move(context, date):
 @gamma.command()
 def update():
 
-    pull_update()
+    
