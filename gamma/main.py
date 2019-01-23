@@ -264,9 +264,3 @@ def move(context, date):
 
     click.echo("Lessons have been move. Regenerating schedule...")
     context.invoke(generate)
-
-
-@gamma.command()
-def update():
-
-    
