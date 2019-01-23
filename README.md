@@ -14,5 +14,5 @@ mkdir -p ~/.gamma; git clone git@github.com:thisismetis/gamma-cli.git ~/.gamma/g
 
 update:
 ```bash
-cd ~/.gamma/gamma-cli; git pull; pip install -e .
+cd ~/.gamma/gamma-cli; git pull
 ```
