@@ -195,7 +195,7 @@ def move(context, date):
 
     config = get_config()
 
-    day, week = parse_lesson_date(date)
+    day, week = parse_lesson_date(date, "move command")
 
     instructor_lesson_df = read_lessons(config["instructor_repo"])
     instructor_pair_df = read_pairs(config["instructor_repo"])

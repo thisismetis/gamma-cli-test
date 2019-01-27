@@ -62,7 +62,7 @@ def set_config(config_obj):
     return True
 
 
-def parse_lesson_date(date):
+def parse_lesson_date(date, path=""):
     """Parses date format in lesson yaml
 
     Args:
@@ -71,6 +71,10 @@ def parse_lesson_date(date):
     Returns:
         (day, week) tuple of integers
     """
+    if not date:
+        click.secho(f"Warning: pair or lesson date invalid: {path}", bg='red',
+                    fg='white')
+        return 0, 0
 
     lesson_week = int(date.split("d")[0][1:])
     lesson_day = int(date.split("d")[-1])
@@ -147,7 +151,7 @@ def read_lessons(repo_path):
             lesson_dict["order"] = 10
         lesson_dict["lesson"] = current_topic.split("/")[-1]
         lesson_dict["project"] = current_topic.split("/")[-2]
-        day, week = parse_lesson_date(lesson_dict["date"])
+        day, week = parse_lesson_date(lesson_dict["date"], readme_path)
         lesson_dict["day"] = day
         lesson_dict["week"] = week
         list_of_dicts.append(lesson_dict)
@@ -217,7 +221,7 @@ def read_pairs(repo_path):
         if no_title or none_title:
             pair_dict["title"] = pair_dict["pair"]
 
-        day, week = parse_lesson_date(pair_dict["date"])
+        day, week = parse_lesson_date(pair_dict["date"], readme_path)
         pair_dict["day"] = day
         pair_dict["week"] = week
         list_of_dicts.append(post.metadata)
