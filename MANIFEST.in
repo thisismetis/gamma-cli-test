@@ -1,2 +1,2 @@
 # directory includes
-graft templates
+include templates/*
