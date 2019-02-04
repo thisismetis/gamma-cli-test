@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='gamma',
-    version='0.1.25',
+    version='0.1.26',
     url='https://github.com/thisismetis/gamma-cli',
     author='soph',
     author_email='s@soph.info',
