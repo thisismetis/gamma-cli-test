@@ -167,8 +167,9 @@ def excel():
     combined_df = combined_df.query("(day > 0) and (week > 0)").sort_values(
         ["week", "day", "order"]).reset_index()
 
-    combined_df = combined_df.loc[:,
-                                  ["week", "day", "title", "type", "duration"]]
+    combined_df = combined_df.loc[:, [
+        "week", "day", "title", "type", "duration", "maintainer"
+    ]]
     combined_df["instructor"] = ""
 
     # Create a Pandas Excel writer using XlsxWriter as the engine.
