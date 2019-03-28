@@ -22,12 +22,10 @@
  </tr>
  <tr>
   <th>
-   <a href="/schedule/week-01">
-    Week 1
-   </a>
+   Week 1
   </th>
   <td>
-   Instruction Time: 270m
+   Total: 270m
    <br/>
    <a href="pairs/fizzbuzz">
     • Pair: fizzbuzz
@@ -61,7 +59,7 @@
    <br/>
   </td>
   <td>
-   Instruction Time: 180m
+   Total: 180m
    <br/>
    <a href="pairs/alphabets">
     • Pair: alphabets
@@ -85,47 +83,38 @@
    <br/>
   </td>
   <td>
-   Instruction Time: 170m
+   Total: 170m
    <br/>
    • Pair: guessnum (60m)
    <br/>
-   • Presentation Guide
+   • Presentation Guide (60m)
+   <br/>
+   • Seaborn (30m)
+   <br/>
+   • Git Branches (30m)
+   <br/>
+   • Optional Python Advanced (50m)
+   <br/>
+  </td>
+  <td>
+   Total: 125m
+   <br/>
+   • Pair: prime (60m)
+   <br/>
+   • Numpy (30m)
+   <br/>
+   • Complexity Intro (50m)
+   <br/>
+   • Code Style (45m)
+   <br/>
+  </td>
+  <td>
+   Total: 60m
+   <br/>
+   • Project 1 Presentation (0m)
+   <br/>
+   • Blog (60m)
+   <br/>
   </td>
  </tr>
 </table>
-(60m)
-<br/>
-• Seaborn
-(30m)
-<br/>
-• Git Branches
-(30m)
-<br/>
-• Optional Python Advanced
-(50m)
-<br/>
-<td>
- Instruction Time: 125m
- <br/>
- • Pair: prime (60m)
- <br/>
- • Numpy
-</td>
-(30m)
-<br/>
-• Complexity Intro
-(50m)
-<br/>
-• Code Style
-(45m)
-<br/>
-<td>
- Instruction Time: 60m
- <br/>
- • Project 1 Presentation
-</td>
-(0m)
-<br/>
-• Blog
-(60m)
-<br/>
