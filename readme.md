@@ -87,69 +87,45 @@
   <td>
    Instruction Time: 170m
    <br/>
-   <a href="pairs/guessnum">
-    • Pair: guessnum
-   </a>
-   (60m)
+   • Pair: guessnum (60m)
    <br/>
-   <a href="/curriculum/project-01/presentation-guide">
-    • Presentation Guide
-   </a>
-   (60m)
-   <br/>
-   <a href="/curriculum/project-01/seaborn">
-    • Seaborn
-   </a>
-   (30m)
-   <br/>
-   <a href="/curriculum/project-01/git-2">
-    • Git Branches
-   </a>
-   (30m)
-   <br/>
-   <a href="/curriculum/project-01/python-advanced">
-    • Optional Python Advanced
-   </a>
-   (50m)
-   <br/>
-  </td>
-  <td>
-   Instruction Time: 125m
-   <br/>
-   <a href="pairs/prime">
-    • Pair: prime
-   </a>
-   (60m)
-   <br/>
-   <a href="/curriculum/project-01/numpy">
-    • Numpy
-   </a>
-   (30m)
-   <br/>
-   <a href="/curriculum/project-01/complexity">
-    • Complexity Intro
-   </a>
-   (50m)
-   <br/>
-   <a href="/curriculum/project-01/code-style">
-    • Code Style
-   </a>
-   (45m)
-   <br/>
-  </td>
-  <td>
-   Instruction Time: 60m
-   <br/>
-   <a href="/curriculum/project-01/project-01-presentation">
-    • Project 1 Presentation
-   </a>
-   (0m)
-   <br/>
-   <a href="/curriculum/project-01/blog">
-    • Blog
-   </a>
-   (60m)
-   <br/>
+   • Presentation Guide
   </td>
  </tr>
 </table>
+(60m)
+<br/>
+• Seaborn
+(30m)
+<br/>
+• Git Branches
+(30m)
+<br/>
+• Optional Python Advanced
+(50m)
+<br/>
+<td>
+ Instruction Time: 125m
+ <br/>
+ • Pair: prime (60m)
+ <br/>
+ • Numpy
+</td>
+(30m)
+<br/>
+• Complexity Intro
+(50m)
+<br/>
+• Code Style
+(45m)
+<br/>
+<td>
+ Instruction Time: 60m
+ <br/>
+ • Project 1 Presentation
+</td>
+(0m)
+<br/>
+• Blog
+(60m)
+<br/>
