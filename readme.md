@@ -29,7 +29,7 @@
   <td>
    Instruction Time: 270m
    <br/>
-   <a href="/pairs/fizzbuzz">
+   <a href="pairs/fizzbuzz">
     • Pair: fizzbuzz
    </a>
    (60m)
@@ -63,7 +63,7 @@
   <td>
    Instruction Time: 180m
    <br/>
-   <a href="/pairs/alphabets">
+   <a href="pairs/alphabets">
     • Pair: alphabets
    </a>
    (60m)
@@ -87,7 +87,7 @@
   <td>
    Instruction Time: 170m
    <br/>
-   <a href="/pairs/guessnum">
+   <a href="pairs/guessnum">
     • Pair: guessnum
    </a>
    (60m)
@@ -116,7 +116,7 @@
   <td>
    Instruction Time: 125m
    <br/>
-   <a href="/pairs/prime">
+   <a href="pairs/prime">
     • Pair: prime
    </a>
    (60m)
