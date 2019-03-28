@@ -85,30 +85,15 @@
   <td>
    Total: 170m
    <br/>
-   <a href="pairs/guessnum">
-    • Pair: guessnum
-   </a>
-   (60m)
+   • Pair: guessnum (60m)
    <br/>
-   <a href="/curriculum/project-01/presentation-guide">
-    • Presentation Guide
-   </a>
-   (60m)
+   • Presentation Guide (60m)
    <br/>
-   <a href="/curriculum/project-01/seaborn">
-    • Seaborn
-   </a>
-   (30m)
+   • Seaborn (30m)
    <br/>
-   <a href="/curriculum/project-01/git-2">
-    • Git Branches
-   </a>
-   (30m)
+   • Git Branches (30m)
    <br/>
-   <a href="/curriculum/project-01/python-advanced">
-    • Optional Python Advanced
-   </a>
-   (50m)
+   • Optional Python Advanced (50m)
    <br/>
   </td>
   <td>
